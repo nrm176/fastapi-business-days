@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database import Base
 from main import app, get_db
+from fastapi import HTTPException
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
@@ -15,11 +16,15 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 Base.metadata.create_all(bind=engine)
 
 def override_get_db():
+    db = None
     try:
         db = TestingSessionLocal()
         yield db
+    except:
+        raise HTTPException(status_code=500, detail="Database connection error")
     finally:
-        db.close()
+        if db:
+            db.close()
 
 app.dependency_overrides[get_db] = override_get_db
 

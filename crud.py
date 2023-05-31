@@ -58,7 +58,7 @@ def delete_holiday(db: Session, id: str):
         return {'message': 'record has been deleted'}
     except:
         db.rollback()
-        logging.ERROR(traceback.format_exc())
+        logging.error(traceback.format_exc(), exc_info=True)
         raise HTTPException(status_code=500, detail="Failed to delete item")
     finally:
         db.close()
