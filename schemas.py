@@ -9,6 +9,14 @@ class Holiday(BaseModel):
     class Config:
         orm_mode = True
 
+class HolidayResponse(BaseModel):
+    date: str
+    desc: str
+    id: str
+
+    class Config:
+        orm_mode = True
+
 
 class HolidayList(BaseModel):
     data: List[Holiday]

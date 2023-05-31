@@ -55,7 +55,7 @@ def delete_holiday(db: Session, id: str):
             raise HTTPException(status_code=404, detail="record not found")
         db.delete(record)
         db.commit()
-        return {'msg': 'record has been deleted'}
+        return {'message': 'record has been deleted'}
     except:
         db.rollback()
         logging.ERROR(traceback.format_exc())
